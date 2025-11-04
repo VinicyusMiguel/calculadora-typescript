@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Calculadora</title>
+</head>
+<body>
+    <div id="conteudoPrincipal">
+    <!--titulo da página de boas vindas-->
+    <h1>
+        Calculadora
+    </h1>
+    <h3>
+        Calculadora em TypeScript<br>
+        Operações Básicas
+    </h3>
+    
+    <!--botão pra abrir o modal-->
+    <button id="abrirModal">Abrir calculadora</button>
+    </div>
+        <dialog id="meuModal" class="modal">
+            <button id="close">&times;</button>
+            <h2>Calculadora</h2>
+
+            <input type="text" id="display" readonly>
+
+            <div id="botoes-numero" class="numeros">
+                <button id="numero7" class="numero">7</button>
+                <button id="numero8" class="numero">8</button>
+                <button id="numero9" class="numero">9</button>
+                <button id="numero4" class="numero">4</button>
+                <button id="numero5" class="numero">5</button>
+                <button id="numero6" class="numero">6</button>
+                <button id="numero1" class="numero">1</button>
+                <button id="numero2" class="numero">2</button>
+                <button id="numero3" class="numero">3</button>
+                <button id="numero0" class="numero">0</button>
+            </div>
+            <div id="botoes-operacao" class="operadores">
+                <button id="soma" class="operador">+</button>
+                <button id="subtracao" class="operador">-</button>
+                <button id="multiplicacao" class="operador">x</button>
+                <button id="divisao" class="operador">/</button>
+                <button id="igual" class="operador">=</button>
+                <button id="limpar" class="operador">C</button>
+            </div>
+
+        </dialog>
+
+    <script src="calculadora.js"></script>
+</body>
+</html>
