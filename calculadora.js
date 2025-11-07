@@ -4,8 +4,15 @@ document.addEventListener('DOMContentLoaded', function() {
     var btnFecharCalculadora = document.getElementById('close'); //o botão de fechar a Calculadora
     var pagina = document.getElementById('conteudoPrincipal');
     var numeros = document.querySelectorAll('.numero')
-    var operadores = document.querySelectorAll('.operador')
+    var operadores = document.querySelectorAll('.operador:not(#igual):not(#limpar)');
     var display = document.getElementById('display')
+    var igual = document.getElementById('igual')
+    var limpar = document.getElementById('limpar')
+
+    let numeroAtual = ""
+    let numeroAnterior = ""
+    let operacao = null
+    let resultado
 
     btnAbrirCalculadora.addEventListener('click', () => {
         modal.showModal(); // funciona apenas com <dialog>
@@ -16,6 +23,9 @@ document.addEventListener('DOMContentLoaded', function() {
         modal.close();
         pagina.style.filter = 'blur(0px)' //tirar o desfoque do fundo
         display.value = ''
+        numeroAtual = ""
+        numeroAnterior= ""
+        operacao = null
     });
 
     document.addEventListener('keydown', function(event){
@@ -23,28 +33,93 @@ document.addEventListener('DOMContentLoaded', function() {
             modal.close();
             pagina.style.filter = 'blur(0px)'
             display.value = ''
+            numeroAtual = ""
+            numeroAnterior= ""
+            operacao = null
         }
     })
      numeros.forEach(numero => {
         numero.addEventListener('click', () => {
             const valor = numero.textContent
-            display.value += valor
+            numeroAtual += valor
+            display.value = numeroAtual
         })
         
     });
-     operadores.forEach(operador => { //vai rodar todos os elementos dentro dessa classe de operadores
-        operador.addEventListener('click', () => {
-            if(operador.id === 'limpar'){
-            display.value = ''
-        }else{
-            const valor = operador.textContent
-            display.value += valor
+    operadores.forEach(operador => { // vai rodar todos os elementos dentro dessa classe de operadores
+    operador.addEventListener('click', () => {
+        if (numeroAtual && !numeroAnterior) {
+            numeroAnterior = numeroAtual
+            numeroAtual = "" 
+            const valor = operador.textContent;
+            operacao = valor
+            display.value += valor;
+            }else if(numeroAnterior && !numeroAtual){
+            const valor = operador.textContent;
+            operacao = valor
+            display.value += valor;
+            }else if(numeroAnterior && numeroAtual){
+            numeroAnterior = numeroAtual
+            numeroAtual = "" 
+            const valor = operador.textContent;
+            operacao = valor
+            display.value += valor;
+            }else{
+                alert("Escolha um número")
             }
-        })
+            
         
-    })
+    });
+}); // <-- fecha certinho aqui o forEach
+igual.addEventListener('click', () => {
+    if(numeroAnterior && numeroAtual){
+        switch(operacao){
+            case "+": 
+            resultado = parseFloat(numeroAnterior) + parseFloat(numeroAtual)
+            display.value = resultado
+            numeroAnterior = resultado
+            numeroAtual = ""
+            operacao = null
+            break;
+            case "-":
+            resultado = parseFloat(numeroAnterior) - parseFloat(numeroAtual)
+            display.value = resultado
+            numeroAnterior = resultado
+            operacao = null
+            numeroAtual = ""
+            break;
+            case "/":
+            resultado = parseFloat(numeroAnterior) / parseFloat(numeroAtual)
+            display.value = resultado
+            numeroAnterior = resultado
+            operacao = null
+            numeroAtual = ""
+            break;
+            case "x":
+            resultado = parseFloat(numeroAnterior) * parseFloat(numeroAtual)
+            display.value = resultado
+            numeroAnterior = resultado
+            operacao = null
+            numeroAtual = ""
+        }
+    }else{
+        alert("Você precisa escolher numeros antes de apertar em igual")
+    }
 
-    
-
-   
 })
+limpar.addEventListener('click', () => {
+    
+    operacao = null
+    numeroAnterior = ""
+    numeroAtual = ""
+    display.value = ""
+})
+
+display.addEventListener('input', () => {
+    const length = display.value.length;
+    console.log(length);
+
+    if (length >= 5) {
+        display.style.fontSize = '30px';
+    }
+})})
