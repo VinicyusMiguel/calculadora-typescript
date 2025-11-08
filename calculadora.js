@@ -27,6 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
         numeroAtual = ""
         numeroAnterior= ""
         operacao = null
+        contador = 0
     });
 
     document.addEventListener('keydown', function(event){
@@ -37,6 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
             numeroAtual = ""
             numeroAnterior= ""
             operacao = null
+            contador = 0
         }
     })
      numeros.forEach(numero => {
