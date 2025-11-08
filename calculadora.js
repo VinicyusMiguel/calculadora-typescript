@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let numeroAnterior = ""
     let operacao = null
     let resultado
+    let contador = 0
 
     btnAbrirCalculadora.addEventListener('click', () => {
         modal.showModal(); // funciona apenas com <dialog>
@@ -48,32 +49,10 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     operadores.forEach(operador => { // vai rodar todos os elementos dentro dessa classe de operadores
     operador.addEventListener('click', () => {
-        if (numeroAtual && !numeroAnterior) {
-            numeroAnterior = numeroAtual
-            numeroAtual = "" 
-            const valor = operador.textContent;
-            operacao = valor
-            display.value += valor;
-            }else if(numeroAnterior && !numeroAtual){
-            const valor = operador.textContent;
-            operacao = valor
-            display.value += valor;
-            }else if(numeroAnterior && numeroAtual){
-            numeroAnterior = numeroAtual
-            numeroAtual = "" 
-            const valor = operador.textContent;
-            operacao = valor
-            display.value += valor;
-            }else{
-                alert("Escolha um número")
-            }
-            
-        
-    });
-}); // <-- fecha certinho aqui o forEach
-igual.addEventListener('click', () => {
-    if(numeroAnterior && numeroAtual){
-        switch(operacao){
+        contador++
+        if(numeroAnterior && numeroAtual){
+            if(contador > 1){
+            switch(operacao){
             case "+": 
             resultado = parseFloat(numeroAnterior) + parseFloat(numeroAtual)
             display.value = resultado
@@ -102,6 +81,61 @@ igual.addEventListener('click', () => {
             operacao = null
             numeroAtual = ""
         }
+        
+        }
+    }
+        if (numeroAtual && !numeroAnterior) {
+            numeroAnterior = numeroAtual
+            numeroAtual = "" 
+            const valor = operador.textContent;
+            operacao = valor
+            display.value += valor;
+            }else if(numeroAnterior && !numeroAtual){
+            const valor = operador.textContent;
+            operacao = valor
+            display.value += valor;
+            }else{
+                alert("Escolha um número")
+            }
+            
+        
+    });
+}); // <-- fecha certinho aqui o forEach
+igual.addEventListener('click', () => {
+    if(numeroAnterior && numeroAtual){
+        switch(operacao){
+            case "+": 
+            resultado = parseFloat(numeroAnterior) + parseFloat(numeroAtual)
+            display.value = resultado
+            numeroAnterior = resultado
+            numeroAtual = ""
+            operacao = null
+            contador = 0
+            break;
+            case "-":
+            resultado = parseFloat(numeroAnterior) - parseFloat(numeroAtual)
+            display.value = resultado
+            numeroAnterior = resultado
+            operacao = null
+            numeroAtual = ""
+            contador = 0
+            break;
+            case "/":
+            resultado = parseFloat(numeroAnterior) / parseFloat(numeroAtual)
+            display.value = resultado
+            numeroAnterior = resultado
+            operacao = null
+            numeroAtual = ""
+            contador = 0
+            break;
+            case "x":
+            resultado = parseFloat(numeroAnterior) * parseFloat(numeroAtual)
+            display.value = resultado
+            numeroAnterior = resultado
+            operacao = null
+            numeroAtual = ""
+            contador = 0
+        }
     }else{
         alert("Você precisa escolher numeros antes de apertar em igual")
     }
@@ -113,6 +147,7 @@ limpar.addEventListener('click', () => {
     numeroAnterior = ""
     numeroAtual = ""
     display.value = ""
+    contador = 0
 })
 
 display.addEventListener('input', () => {
